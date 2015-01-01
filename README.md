@@ -2,7 +2,10 @@ btcjson
 =======
 
 [![Build Status](https://travis-ci.org/btcsuite/btcjson.png?branch=master)]
-(https://travis-ci.org/btcsuite/btcjson)
+(https://travis-ci.org/btcsuite/btcjson) [![Coverage Status]
+(https://img.shields.io/coveralls/btcsuite/btcjson.svg)]
+(https://coveralls.io/r/btcsuite/btcjson?branch=master) [![ISC License]
+(http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
 
 Package btcjson implements the bitcoin JSON-RPC API.  There is a test
 suite which is aiming to reach 100% code coverage.  See
@@ -43,6 +46,9 @@ useful Go data structures).
 ```
 
 ## Documentation
+
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)]
+(http://godoc.org/github.com/btcsuite/btcjson)
 
 Full `go doc` style documentation for the project can be viewed online without
 installing this package by using the GoDoc site
