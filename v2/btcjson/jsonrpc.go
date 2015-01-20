@@ -110,18 +110,18 @@ func NewRequest(id interface{}, method string, params []interface{}) (*Request, 
 // interface.  The ID field has to be a pointer for Go to put a null in it when
 // empty.
 type Response struct {
-	Result interface{}  `json:"result"`
-	Error  *RPCError    `json:"error"`
-	ID     *interface{} `json:"id"`
+	Result json.RawMessage `json:"result"`
+	Error  *RPCError       `json:"error"`
+	ID     *interface{}    `json:"id"`
 }
 
 // NewResponse returns a new JSON-RPC response object given the provided id,
-// result, and RPC error.  This function is only provided in case the caller
-// wants to construct raw responses for some reason.
+// marshalled result, and RPC error.  This function is only provided in case the
+// caller wants to construct raw responses for some reason.
 //
 // Typically callers will instead want to create the fully marshalled JSON-RPC
 // response to send over the wire with the MarshalResponse function.
-func NewResponse(id interface{}, result interface{}, rpcErr *RPCError) (*Response, error) {
+func NewResponse(id interface{}, marshalledResult []byte, rpcErr *RPCError) (*Response, error) {
 	if !IsValidIDType(id) {
 		str := fmt.Sprintf("the id of type '%T' is invalid", id)
 		return nil, makeError(ErrInvalidType, str)
@@ -129,7 +129,7 @@ func NewResponse(id interface{}, result interface{}, rpcErr *RPCError) (*Respons
 
 	pid := &id
 	return &Response{
-		Result: result,
+		Result: marshalledResult,
 		Error:  rpcErr,
 		ID:     pid,
 	}, nil
@@ -138,7 +138,12 @@ func NewResponse(id interface{}, result interface{}, rpcErr *RPCError) (*Respons
 // MarshalResponse marshals the passed id, result, and RPCError to a JSON-RPC
 // response byte slice that is suitable for transmission to a JSON-RPC client.
 func MarshalResponse(id interface{}, result interface{}, rpcErr *RPCError) ([]byte, error) {
-	response, err := NewResponse(id, result, rpcErr)
+	marshalledResult, err := json.Marshal(result)
+	if err != nil {
+		// TODO(davec): Test this error path...
+		return nil, err
+	}
+	response, err := NewResponse(id, marshalledResult, rpcErr)
 	if err != nil {
 		return nil, err
 	}
