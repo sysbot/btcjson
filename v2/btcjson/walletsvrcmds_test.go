@@ -90,19 +90,6 @@ func TestWalletSvrCmds(t *testing.T) {
 			},
 		},
 		{
-			name: "dumpwallet",
-			newCmd: func() (interface{}, error) {
-				return btcjson.NewCmd("dumpwallet", "filename")
-			},
-			staticCmd: func() interface{} {
-				return btcjson.NewDumpWalletCmd("filename")
-			},
-			marshalled: `{"jsonrpc":"1.0","method":"dumpwallet","params":["filename"],"id":1}`,
-			unmarshalled: &btcjson.DumpWalletCmd{
-				Filename: "filename",
-			},
-		},
-		{
 			name: "encryptwallet",
 			newCmd: func() (interface{}, error) {
 				return btcjson.NewCmd("encryptwallet", "pass")
@@ -401,19 +388,6 @@ func TestWalletSvrCmds(t *testing.T) {
 				PrivKey: "abc",
 				Label:   btcjson.String("label"),
 				Rescan:  btcjson.Bool(false),
-			},
-		},
-		{
-			name: "importwallet",
-			newCmd: func() (interface{}, error) {
-				return btcjson.NewCmd("importwallet", "filename")
-			},
-			staticCmd: func() interface{} {
-				return btcjson.NewImportWalletCmd("filename")
-			},
-			marshalled: `{"jsonrpc":"1.0","method":"importwallet","params":["filename"],"id":1}`,
-			unmarshalled: &btcjson.ImportWalletCmd{
-				Filename: "filename",
 			},
 		},
 		{

@@ -55,19 +55,6 @@ func NewDumpPrivKeyCmd(address string) *DumpPrivKeyCmd {
 	}
 }
 
-// DumpWalletCmd defines the dumpwallet JSON-RPC command.
-type DumpWalletCmd struct {
-	Filename string
-}
-
-// NewDumpWalletCmd returns a new instance which can be used to issue a
-// dumpwallet JSON-RPC command.
-func NewDumpWalletCmd(filename string) *DumpWalletCmd {
-	return &DumpWalletCmd{
-		Filename: filename,
-	}
-}
-
 // EncryptWalletCmd defines the encryptwallet JSON-RPC command.
 type EncryptWalletCmd struct {
 	Passphrase string
@@ -267,19 +254,6 @@ func NewImportPrivKeyCmd(privKey string, label *string, rescan *bool) *ImportPri
 		PrivKey: privKey,
 		Label:   label,
 		Rescan:  rescan,
-	}
-}
-
-// ImportWalletCmd defines the importwallet JSON-RPC command.
-type ImportWalletCmd struct {
-	Filename string
-}
-
-// NewImportWalletCmd returns a new instance which can be used to issue a
-// importwallet JSON-RPC command.
-func NewImportWalletCmd(filename string) *ImportWalletCmd {
-	return &ImportWalletCmd{
-		Filename: filename,
 	}
 }
 
@@ -661,7 +635,6 @@ func init() {
 	MustRegisterCmd("addmultisigaddress", (*AddMultisigAddressCmd)(nil))
 	MustRegisterCmd("createmultisig", (*CreateMultisigCmd)(nil))
 	MustRegisterCmd("dumpprivkey", (*DumpPrivKeyCmd)(nil))
-	MustRegisterCmd("dumpwallet", (*DumpWalletCmd)(nil))
 	MustRegisterCmd("encryptwallet", (*EncryptWalletCmd)(nil))
 	MustRegisterCmd("estimatefee", (*EstimateFeeCmd)(nil))
 	MustRegisterCmd("estimatepriority", (*EstimatePriorityCmd)(nil))
@@ -675,7 +648,6 @@ func init() {
 	MustRegisterCmd("getreceivedbyaddress", (*GetReceivedByAddressCmd)(nil))
 	MustRegisterCmd("gettransaction", (*GetTransactionCmd)(nil))
 	MustRegisterCmd("importprivkey", (*ImportPrivKeyCmd)(nil))
-	MustRegisterCmd("importwallet", (*ImportWalletCmd)(nil))
 	MustRegisterCmd("keypoolrefill", (*KeyPoolRefillCmd)(nil))
 	MustRegisterCmd("listaccounts", (*ListAccountsCmd)(nil))
 	MustRegisterCmd("listaddressgroupings", (*ListAddressGroupingsCmd)(nil))
