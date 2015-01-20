@@ -320,7 +320,7 @@ type TxRawResult struct {
 	Vin           []Vin  `json:"vin"`
 	Vout          []Vout `json:"vout"`
 	BlockHash     string `json:"blockhash,omitempty"`
-	Confirmations uint64 `json:"confirmations,omitempty"`
+	Confirmations uint64 `json:"confirmations"`
 	Time          int64  `json:"time,omitempty"`
 	Blocktime     int64  `json:"blocktime,omitempty"`
 }

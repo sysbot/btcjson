@@ -153,28 +153,30 @@ func TestChainSvrWsNtfns(t *testing.T) {
 		{
 			name: "txacceptedverbose",
 			newNtfn: func() (interface{}, error) {
-				return btcjson.NewCmd("txacceptedverbose", `{"hex":"001122","txid":"123","version":1,"locktime":4294967295,"vin":null,"vout":null}`)
+				return btcjson.NewCmd("txacceptedverbose", `{"hex":"001122","txid":"123","version":1,"locktime":4294967295,"vin":null,"vout":null,"confirmations":0}`)
 			},
 			staticNtfn: func() interface{} {
 				txResult := btcjson.TxRawResult{
-					Hex:      "001122",
-					Txid:     "123",
-					Version:  1,
-					LockTime: 4294967295,
-					Vin:      nil,
-					Vout:     nil,
+					Hex:           "001122",
+					Txid:          "123",
+					Version:       1,
+					LockTime:      4294967295,
+					Vin:           nil,
+					Vout:          nil,
+					Confirmations: 0,
 				}
 				return btcjson.NewTxAcceptedVerboseNtfn(txResult)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"txacceptedverbose","params":[{"hex":"001122","txid":"123","version":1,"locktime":4294967295,"vin":null,"vout":null}],"id":null}`,
+			marshalled: `{"jsonrpc":"1.0","method":"txacceptedverbose","params":[{"hex":"001122","txid":"123","version":1,"locktime":4294967295,"vin":null,"vout":null,"confirmations":0}],"id":null}`,
 			unmarshalled: &btcjson.TxAcceptedVerboseNtfn{
 				RawTx: btcjson.TxRawResult{
-					Hex:      "001122",
-					Txid:     "123",
-					Version:  1,
-					LockTime: 4294967295,
-					Vin:      nil,
-					Vout:     nil,
+					Hex:           "001122",
+					Txid:          "123",
+					Version:       1,
+					LockTime:      4294967295,
+					Vin:           nil,
+					Vout:          nil,
+					Confirmations: 0,
 				},
 			},
 		},
