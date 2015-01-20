@@ -138,14 +138,14 @@ func UnmarshalCmd(r *Request) (interface{}, error) {
 			fieldName := strings.ToLower(rt.Field(i).Name)
 			if jerr, ok := err.(*json.UnmarshalTypeError); ok {
 				str := fmt.Sprintf("parameter #%d '%s' must "+
-					"be type %v (got %v)", i, fieldName,
+					"be type %v (got %v)", i+1, fieldName,
 					jerr.Type, jerr.Value)
 				return nil, makeError(ErrInvalidType, str)
 			}
 
 			// Fallback to showing the underlying error.
 			str := fmt.Sprintf("parameter #%d '%s' failed to "+
-				"unmarshal: %v", i, fieldName, err)
+				"unmarshal: %v", i+1, fieldName, err)
 			return nil, makeError(ErrInvalidType, str)
 		}
 	}
@@ -540,7 +540,7 @@ func NewCmd(method string, args ...interface{}) (interface{}, error) {
 		// struct field.
 		rvf := rv.Field(i)
 		fieldName := strings.ToLower(rt.Field(i).Name)
-		err := assignField(i, fieldName, rvf, reflect.ValueOf(args[i]))
+		err := assignField(i+1, fieldName, rvf, reflect.ValueOf(args[i]))
 		if err != nil {
 			return nil, err
 		}
