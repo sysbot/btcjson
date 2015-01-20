@@ -202,8 +202,9 @@ type ScriptSig struct {
 	Hex string `json:"hex"`
 }
 
-// Vin models parts of the tx data.  It is defined seperately since both
-// getrawtransaction and decoderawtransaction use the same structure.
+// Vin models parts of the tx data.  It is defined seperately since
+// getrawtransaction, decoderawtransaction, and searchrawtransaction use the
+// same structure.
 type Vin struct {
 	Coinbase  string     `json:"coinbase"`
 	Txid      string     `json:"txid"`
@@ -311,7 +312,8 @@ type NetworksResult struct {
 	Proxy     string `json:"proxy"`
 }
 
-// TxRawResult models the data from the getrawtransaction command.
+// TxRawResult models the data from the getrawtransaction and
+// searchrawtransaction commands.
 type TxRawResult struct {
 	Hex           string `json:"hex"`
 	Txid          string `json:"txid"`

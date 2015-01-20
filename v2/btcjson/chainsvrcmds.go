@@ -510,6 +510,28 @@ func NewReconsiderBlockCmd(blockHash string) *ReconsiderBlockCmd {
 	}
 }
 
+// SearchRawTransactionCmd defines the searchrawtransaction JSON-RPC command.
+type SearchRawTransactionCmd struct {
+	Address string
+	Verbose *bool `jsonrpcdefault:"true"`
+	Skip    *int  `jsonrpcdefault:"0"`
+	Count   *int  `jsonrpcdefault:"100"`
+}
+
+// NewSearchRawTransactionCmd returns a new instance which can be used to issue a
+// sendrawtransaction JSON-RPC command.
+//
+// The parameters which are pointers indicate they are optional.  Passing nil
+// for optional parameters will use the default value.
+func NewSearchRawTransactionCmd(address string, verbose *bool, skip, count *int) *SearchRawTransactionCmd {
+	return &SearchRawTransactionCmd{
+		Address: address,
+		Verbose: verbose,
+		Skip:    skip,
+		Count:   count,
+	}
+}
+
 // SendRawTransactionCmd defines the sendrawtransaction JSON-RPC command.
 type SendRawTransactionCmd struct {
 	HexTx         string
@@ -661,6 +683,7 @@ func init() {
 	MustRegisterCmd("invalidateblock", (*InvalidateBlockCmd)(nil))
 	MustRegisterCmd("ping", (*PingCmd)(nil))
 	MustRegisterCmd("reconsiderblock", (*ReconsiderBlockCmd)(nil))
+	MustRegisterCmd("searchrawtransaction", (*SearchRawTransactionCmd)(nil))
 	MustRegisterCmd("sendrawtransaction", (*SendRawTransactionCmd)(nil))
 	MustRegisterCmd("setgenerate", (*SetGenerateCmd)(nil))
 	MustRegisterCmd("stop", (*StopCmd)(nil))
