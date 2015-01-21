@@ -84,8 +84,12 @@ func NewNewTxNtfn(account string, details ListTransactionsResult) *NewTxNtfn {
 }
 
 func init() {
-	MustRegisterCmd(AccountBalanceNtfnMethod, (*AccountBalanceNtfn)(nil))
-	MustRegisterCmd(BtcdConnectedNtfnMethod, (*BtcdConnectedNtfn)(nil))
-	MustRegisterCmd(WalletLockStateNtfnMethod, (*WalletLockStateNtfn)(nil))
-	MustRegisterCmd(NewTxNtfnMethod, (*NewTxNtfn)(nil))
+	// The commands in this file are only usable with a wallet server via
+	// websockets and are notifications.
+	flags := UFWalletOnly | UFWebsocketOnly | UFNotification
+
+	MustRegisterCmd(AccountBalanceNtfnMethod, (*AccountBalanceNtfn)(nil), flags)
+	MustRegisterCmd(BtcdConnectedNtfnMethod, (*BtcdConnectedNtfn)(nil), flags)
+	MustRegisterCmd(WalletLockStateNtfnMethod, (*WalletLockStateNtfn)(nil), flags)
+	MustRegisterCmd(NewTxNtfnMethod, (*NewTxNtfn)(nil), flags)
 }

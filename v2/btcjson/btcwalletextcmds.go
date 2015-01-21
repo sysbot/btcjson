@@ -62,8 +62,11 @@ func NewRenameAccountCmd(oldAccount, newAccount string) *RenameAccountCmd {
 }
 
 func init() {
-	MustRegisterCmd("createnewaccount", (*CreateNewAccountCmd)(nil))
-	MustRegisterCmd("dumpwallet", (*DumpWalletCmd)(nil))
-	MustRegisterCmd("importwallet", (*ImportWalletCmd)(nil))
-	MustRegisterCmd("renameaccount", (*RenameAccountCmd)(nil))
+	// No special flags for commands in this file.
+	flags := UsageFlag(0)
+
+	MustRegisterCmd("createnewaccount", (*CreateNewAccountCmd)(nil), flags)
+	MustRegisterCmd("dumpwallet", (*DumpWalletCmd)(nil), flags)
+	MustRegisterCmd("importwallet", (*ImportWalletCmd)(nil), flags)
+	MustRegisterCmd("renameaccount", (*RenameAccountCmd)(nil), flags)
 }

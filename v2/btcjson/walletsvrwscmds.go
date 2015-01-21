@@ -132,13 +132,17 @@ func NewWalletIsLockedCmd() *WalletIsLockedCmd {
 }
 
 func init() {
-	MustRegisterCmd("createencryptedwallet", (*CreateEncryptedWalletCmd)(nil))
-	MustRegisterCmd("exportwatchingwallet", (*ExportWatchingWalletCmd)(nil))
-	MustRegisterCmd("getbestblock", (*GetBestBlockCmd)(nil))
-	MustRegisterCmd("getcurrentnet", (*GetCurrentNetCmd)(nil))
-	MustRegisterCmd("getunconfirmedbalance", (*GetUnconfirmedBalanceCmd)(nil))
-	MustRegisterCmd("listaddresstransactions", (*ListAddressTransactionsCmd)(nil))
-	MustRegisterCmd("listalltransactions", (*ListAllTransactionsCmd)(nil))
-	MustRegisterCmd("recoveraddresses", (*RecoverAddressesCmd)(nil))
-	MustRegisterCmd("walletislocked", (*WalletIsLockedCmd)(nil))
+	// The commands in this file are only usable with a wallet server via
+	// websockets.
+	flags := UFWalletOnly | UFWebsocketOnly
+
+	MustRegisterCmd("createencryptedwallet", (*CreateEncryptedWalletCmd)(nil), flags)
+	MustRegisterCmd("exportwatchingwallet", (*ExportWatchingWalletCmd)(nil), flags)
+	MustRegisterCmd("getbestblock", (*GetBestBlockCmd)(nil), flags)
+	MustRegisterCmd("getcurrentnet", (*GetCurrentNetCmd)(nil), flags)
+	MustRegisterCmd("getunconfirmedbalance", (*GetUnconfirmedBalanceCmd)(nil), flags)
+	MustRegisterCmd("listaddresstransactions", (*ListAddressTransactionsCmd)(nil), flags)
+	MustRegisterCmd("listalltransactions", (*ListAllTransactionsCmd)(nil), flags)
+	MustRegisterCmd("recoveraddresses", (*RecoverAddressesCmd)(nil), flags)
+	MustRegisterCmd("walletislocked", (*WalletIsLockedCmd)(nil), flags)
 }

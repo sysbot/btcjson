@@ -116,10 +116,13 @@ func NewRescanCmd(beginBlock string, addresses []string, outPoints []OutPoint, e
 }
 
 func init() {
-	MustRegisterCmd("authenticate", (*AuthenticateCmd)(nil))
-	MustRegisterCmd("notifyblocks", (*NotifyBlocksCmd)(nil))
-	MustRegisterCmd("notifynewtransactions", (*NotifyNewTransactionsCmd)(nil))
-	MustRegisterCmd("notifyreceived", (*NotifyReceivedCmd)(nil))
-	MustRegisterCmd("notifyspent", (*NotifySpentCmd)(nil))
-	MustRegisterCmd("rescan", (*RescanCmd)(nil))
+	// The commands in this file are only usable by websockets.
+	flags := UFWebsocketOnly
+
+	MustRegisterCmd("authenticate", (*AuthenticateCmd)(nil), flags)
+	MustRegisterCmd("notifyblocks", (*NotifyBlocksCmd)(nil), flags)
+	MustRegisterCmd("notifynewtransactions", (*NotifyNewTransactionsCmd)(nil), flags)
+	MustRegisterCmd("notifyreceived", (*NotifyReceivedCmd)(nil), flags)
+	MustRegisterCmd("notifyspent", (*NotifySpentCmd)(nil), flags)
+	MustRegisterCmd("rescan", (*RescanCmd)(nil), flags)
 }

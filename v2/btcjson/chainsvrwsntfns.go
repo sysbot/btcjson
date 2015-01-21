@@ -177,12 +177,16 @@ func NewTxAcceptedVerboseNtfn(rawTx TxRawResult) *TxAcceptedVerboseNtfn {
 }
 
 func init() {
-	MustRegisterCmd(BlockConnectedNtfnMethod, (*BlockConnectedNtfn)(nil))
-	MustRegisterCmd(BlockDisconnectedNtfnMethod, (*BlockDisconnectedNtfn)(nil))
-	MustRegisterCmd(RecvTxNtfnMethod, (*RecvTxNtfn)(nil))
-	MustRegisterCmd(RedeemingTxNtfnMethod, (*RedeemingTxNtfn)(nil))
-	MustRegisterCmd(RescanFinishedNtfnMethod, (*RescanFinishedNtfn)(nil))
-	MustRegisterCmd(RescanProgressNtfnMethod, (*RescanProgressNtfn)(nil))
-	MustRegisterCmd(TxAcceptedNtfnMethod, (*TxAcceptedNtfn)(nil))
-	MustRegisterCmd(TxAcceptedVerboseNtfnMethod, (*TxAcceptedVerboseNtfn)(nil))
+	// The commands in this file are only usable by websockets and are
+	// notifications.
+	flags := UFWebsocketOnly | UFNotification
+
+	MustRegisterCmd(BlockConnectedNtfnMethod, (*BlockConnectedNtfn)(nil), flags)
+	MustRegisterCmd(BlockDisconnectedNtfnMethod, (*BlockDisconnectedNtfn)(nil), flags)
+	MustRegisterCmd(RecvTxNtfnMethod, (*RecvTxNtfn)(nil), flags)
+	MustRegisterCmd(RedeemingTxNtfnMethod, (*RedeemingTxNtfn)(nil), flags)
+	MustRegisterCmd(RescanFinishedNtfnMethod, (*RescanFinishedNtfn)(nil), flags)
+	MustRegisterCmd(RescanProgressNtfnMethod, (*RescanProgressNtfn)(nil), flags)
+	MustRegisterCmd(TxAcceptedNtfnMethod, (*TxAcceptedNtfn)(nil), flags)
+	MustRegisterCmd(TxAcceptedVerboseNtfnMethod, (*TxAcceptedVerboseNtfn)(nil), flags)
 }

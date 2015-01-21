@@ -6,6 +6,10 @@ package btcjson
 
 import "reflect"
 
+// TstHighestUsageFlagBit makes the internal highestUsageFlagBit parameter
+// available to the test package.
+var TstHighestUsageFlagBit = highestUsageFlagBit
+
 // TstNumErrorCodes makes the internal numErrorCodes parameter available to the
 // test package.
 var TstNumErrorCodes = numErrorCodes

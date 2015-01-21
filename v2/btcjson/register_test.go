@@ -6,10 +6,52 @@ package btcjson_test
 
 import (
 	"reflect"
+	"sort"
 	"testing"
 
 	"github.com/btcsuite/btcjson/v2/btcjson"
 )
+
+// TestUsageFlagStringer tests the stringized output for the UsageFlag type.
+func TestUsageFlagStringer(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		in   btcjson.UsageFlag
+		want string
+	}{
+		{0, "0x0"},
+		{btcjson.UFWalletOnly, "UFWalletOnly"},
+		{btcjson.UFWebsocketOnly, "UFWebsocketOnly"},
+		{btcjson.UFNotification, "UFNotification"},
+		{btcjson.UFWalletOnly | btcjson.UFWebsocketOnly,
+			"UFWalletOnly|UFWebsocketOnly"},
+		{btcjson.UFWalletOnly | btcjson.UFWebsocketOnly | (1 << 31),
+			"UFWalletOnly|UFWebsocketOnly|0x80000000"},
+	}
+
+	// Detect additional usage flags that don't have the stringer added.
+	numUsageFlags := 0
+	highestUsageFlagBit := btcjson.TstHighestUsageFlagBit
+	for highestUsageFlagBit > 1 {
+		numUsageFlags++
+		highestUsageFlagBit >>= 1
+	}
+	if len(tests)-3 != numUsageFlags {
+		t.Errorf("It appears a usage flag was added without adding " +
+			"an associated stringer test")
+	}
+
+	t.Logf("Running %d tests", len(tests))
+	for i, test := range tests {
+		result := test.in.String()
+		if result != test.want {
+			t.Errorf("String #%d\n got: %s want: %s", i, result,
+				test.want)
+			continue
+		}
+	}
+}
 
 // TestRegisterCmdErrors ensures the RegisterCmd function returns the expected
 // error when provided with invalid types.
@@ -156,7 +198,7 @@ func TestRegisterCmdErrors(t *testing.T) {
 
 	t.Logf("Running %d tests", len(tests))
 	for i, test := range tests {
-		err := btcjson.RegisterCmd(test.method, test.cmdFunc())
+		err := btcjson.RegisterCmd(test.method, test.cmdFunc(), 0)
 		if reflect.TypeOf(err) != reflect.TypeOf(test.err) {
 			t.Errorf("Test #%d (%s) wrong error - got %T, "+
 				"want %T", i, test.name, err, test.err)
@@ -186,5 +228,25 @@ func TestMustRegisterCmdPanic(t *testing.T) {
 	}()
 
 	// Intentionally try to register an invalid type to force a panic.
-	btcjson.MustRegisterCmd("panicme", 0)
+	btcjson.MustRegisterCmd("panicme", 0, 0)
+}
+
+// TestRegisteredCmdMethods tests the RegisteredCmdMethods function ensure it
+// works as expected.
+func TestRegisteredCmdMethods(t *testing.T) {
+	t.Parallel()
+
+	// Ensure the registerd methods are returned.
+	methods := btcjson.RegisteredCmdMethods()
+	if len(methods) == 0 {
+		t.Fatal("RegisteredCmdMethods: no methods")
+	}
+
+	// Ensure the returnd methods are sorted.
+	sortedMethods := make([]string, len(methods))
+	copy(sortedMethods, methods)
+	sort.Sort(sort.StringSlice(sortedMethods))
+	if !reflect.DeepEqual(sortedMethods, methods) {
+		t.Fatal("RegisteredCmdMethods: methods are not sorted")
+	}
 }

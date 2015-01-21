@@ -23,5 +23,8 @@ func NewDebugLevelCmd(levelSpec string) *DebugLevelCmd {
 }
 
 func init() {
-	MustRegisterCmd("debuglevel", (*DebugLevelCmd)(nil))
+	// No special flags for commands in this file.
+	flags := UsageFlag(0)
+
+	MustRegisterCmd("debuglevel", (*DebugLevelCmd)(nil), flags)
 }

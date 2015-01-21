@@ -9,7 +9,7 @@ import (
 	"reflect"
 )
 
-// CmdMethod returns the method for the passed command.  the provided command
+// CmdMethod returns the method for the passed command.  The provided command
 // type must be a registered type.  All commands provided by this package are
 // registered by default.
 func CmdMethod(cmd interface{}) (string, error) {
@@ -24,4 +24,21 @@ func CmdMethod(cmd interface{}) (string, error) {
 	}
 
 	return method, nil
+}
+
+// MethodUsage returns the usage flags for the passed command method.  The
+// provided method must be associated with a registered type.  All commands
+// provided by this package are registered by default.
+func MethodUsage(method string) (UsageFlag, error) {
+	// Look up details about the provided method and error out if not
+	// registered.
+	registerLock.RLock()
+	info, ok := methodToInfo[method]
+	registerLock.RUnlock()
+	if !ok {
+		str := fmt.Sprintf("%q is not registered", method)
+		return 0, makeError(ErrUnregisteredMethod, str)
+	}
+
+	return info.flags, nil
 }

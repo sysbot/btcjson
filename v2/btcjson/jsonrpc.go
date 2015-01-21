@@ -140,7 +140,6 @@ func NewResponse(id interface{}, marshalledResult []byte, rpcErr *RPCError) (*Re
 func MarshalResponse(id interface{}, result interface{}, rpcErr *RPCError) ([]byte, error) {
 	marshalledResult, err := json.Marshal(result)
 	if err != nil {
-		// TODO(davec): Test this error path...
 		return nil, err
 	}
 	response, err := NewResponse(id, marshalledResult, rpcErr)
