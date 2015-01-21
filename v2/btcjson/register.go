@@ -162,6 +162,13 @@ func RegisterCmd(method string, cmd interface{}, flags UsageFlag) error {
 		return makeError(ErrDuplicateMethod, str)
 	}
 
+	// Ensure that no unrecognized flag bits were specified.
+	if ^(highestUsageFlagBit-1)&flags != 0 {
+		str := fmt.Sprintf("invalid usage flags specified for method "+
+			"%s: %v", method, flags)
+		return makeError(ErrInvalidUsageFlags, str)
+	}
+
 	rtp := reflect.TypeOf(cmd)
 	if rtp.Kind() != reflect.Ptr {
 		str := fmt.Sprintf("type must be *struct not '%s (%s)'", rtp,

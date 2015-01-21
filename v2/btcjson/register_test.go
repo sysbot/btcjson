@@ -62,6 +62,7 @@ func TestRegisterCmdErrors(t *testing.T) {
 		name    string
 		method  string
 		cmdFunc func() interface{}
+		flags   btcjson.UsageFlag
 		err     btcjson.Error
 	}{
 		{
@@ -71,6 +72,15 @@ func TestRegisterCmdErrors(t *testing.T) {
 				return struct{}{}
 			},
 			err: btcjson.Error{ErrorCode: btcjson.ErrDuplicateMethod},
+		},
+		{
+			name:   "invalid usage flags",
+			method: "registertestcmd",
+			cmdFunc: func() interface{} {
+				return 0
+			},
+			flags: btcjson.TstHighestUsageFlagBit,
+			err:   btcjson.Error{ErrorCode: btcjson.ErrInvalidUsageFlags},
 		},
 		{
 			name:   "invalid type",
@@ -198,7 +208,8 @@ func TestRegisterCmdErrors(t *testing.T) {
 
 	t.Logf("Running %d tests", len(tests))
 	for i, test := range tests {
-		err := btcjson.RegisterCmd(test.method, test.cmdFunc(), 0)
+		err := btcjson.RegisterCmd(test.method, test.cmdFunc(),
+			test.flags)
 		if reflect.TypeOf(err) != reflect.TypeOf(test.err) {
 			t.Errorf("Test #%d (%s) wrong error - got %T, "+
 				"want %T", i, test.name, err, test.err)

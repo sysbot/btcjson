@@ -18,6 +18,10 @@ const (
 	// already exists.
 	ErrDuplicateMethod ErrorCode = iota
 
+	// ErrInvalidUsageFlags indicates one or more unrecognized flag bits
+	// were specified.
+	ErrInvalidUsageFlags
+
 	// ErrInvalidType indicates a type was passed that is not the required
 	// type.
 	ErrInvalidType
@@ -61,6 +65,7 @@ const (
 // Map of ErrorCode values back to their constant names for pretty printing.
 var errorCodeStrings = map[ErrorCode]string{
 	ErrDuplicateMethod:      "ErrDuplicateMethod",
+	ErrInvalidUsageFlags:    "ErrInvalidUsageFlags",
 	ErrInvalidType:          "ErrInvalidType",
 	ErrEmbeddedType:         "ErrEmbeddedType",
 	ErrUnexportedField:      "ErrUnexportedField",

@@ -19,6 +19,7 @@ func TestErrorCodeStringer(t *testing.T) {
 		want string
 	}{
 		{btcjson.ErrDuplicateMethod, "ErrDuplicateMethod"},
+		{btcjson.ErrInvalidUsageFlags, "ErrInvalidUsageFlags"},
 		{btcjson.ErrInvalidType, "ErrInvalidType"},
 		{btcjson.ErrEmbeddedType, "ErrEmbeddedType"},
 		{btcjson.ErrUnexportedField, "ErrUnexportedField"},
