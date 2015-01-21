@@ -5,6 +5,7 @@
 package btcjson_test
 
 import (
+	"encoding/json"
 	"reflect"
 	"testing"
 
@@ -114,8 +115,18 @@ func TestMiscErrors(t *testing.T) {
 	wantErr := btcjson.Error{ErrorCode: btcjson.ErrInvalidType}
 	_, err = btcjson.MarshalResponse(make(chan int), nil, nil)
 	if jerr, ok := err.(btcjson.Error); !ok || jerr.ErrorCode != wantErr.ErrorCode {
-		t.Error("MarshalResult: did not receive expected error - got "+
+		t.Errorf("MarshalResult: did not receive expected error - got "+
 			"%v (%[1]T), want %v (%[2]T)", err, wantErr)
+		return
+	}
+
+	// Force an error in MarshalResponse by giving it a result type that
+	// can't be marshalled.
+	_, err = btcjson.MarshalResponse(1, make(chan int), nil)
+	if _, ok := err.(*json.UnsupportedTypeError); !ok {
+		wantErr := &json.UnsupportedTypeError{}
+		t.Errorf("MarshalResult: did not receive expected error - got "+
+			"%v (%[1]T), want %T", err, wantErr)
 		return
 	}
 }
