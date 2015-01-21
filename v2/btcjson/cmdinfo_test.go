@@ -69,9 +69,9 @@ func TestCmdMethod(t *testing.T) {
 	}
 }
 
-// TestMethodUsage tests the MethodUsage function ensure it returns the expected
-// flags and errors.
-func TestMethodUsage(t *testing.T) {
+// TestMethodUsageFlags tests the MethodUsage function ensure it returns the
+// expected flags and errors.
+func TestMethodUsageFlags(t *testing.T) {
 	t.Parallel()
 
 	tests := []struct {
@@ -99,7 +99,7 @@ func TestMethodUsage(t *testing.T) {
 
 	t.Logf("Running %d tests", len(tests))
 	for i, test := range tests {
-		flags, err := btcjson.MethodUsage(test.method)
+		flags, err := btcjson.MethodUsageFlags(test.method)
 		if reflect.TypeOf(err) != reflect.TypeOf(test.err) {
 			t.Errorf("Test #%d (%s) wrong error - got %T (%[3]v), "+
 				"want %T", i, test.name, err, test.err)
