@@ -19,3 +19,7 @@ var TstNumErrorCodes = numErrorCodes
 func TstAssignField(paramNum int, fieldName string, dest reflect.Value, src reflect.Value) error {
 	return assignField(paramNum, fieldName, dest, src)
 }
+
+// TstFieldUsage makes the internal fieldUsage function available to the test
+// package.
+var TstFieldUsage = fieldUsage

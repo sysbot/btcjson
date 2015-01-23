@@ -79,6 +79,7 @@ type methodInfo struct {
 	numOptParams int
 	defaults     map[int]reflect.Value
 	flags        UsageFlag
+	usage        string
 }
 
 var (

@@ -477,7 +477,7 @@ func NewSendFromCmd(fromAccount, toAddress string, amount float64, minConf *int,
 // SendManyCmd defines the sendmany JSON-RPC command.
 type SendManyCmd struct {
 	FromAccount string
-	Amounts     map[string]float64 // In BTC
+	Amounts     map[string]float64 `jsonrpcusage:"{\"address\":amount,...}"` // In BTC
 	MinConf     *int               `jsonrpcdefault:"1"`
 	Comment     *string
 }

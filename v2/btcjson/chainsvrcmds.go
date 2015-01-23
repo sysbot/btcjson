@@ -32,7 +32,7 @@ const (
 // AddNodeCmd defines the addnode JSON-RPC command.
 type AddNodeCmd struct {
 	Addr   string
-	SubCmd AddNodeSubCmd
+	SubCmd AddNodeSubCmd `jsonrpcusage:"\"add|remove|onetry\""`
 }
 
 // NewAddNodeCmd returns a new instance which can be used to issue an addnode
@@ -54,7 +54,7 @@ type TransactionInput struct {
 // CreateRawTransactionCmd defines the createrawtransaction JSON-RPC command.
 type CreateRawTransactionCmd struct {
 	Inputs  []TransactionInput
-	Amounts map[string]float64 // In BTC
+	Amounts map[string]float64 `jsonrpcusage:"{\"address\":amount,...}"` // In BTC
 }
 
 // NewCreateRawTransactionCmd returns a new instance which can be used to issue

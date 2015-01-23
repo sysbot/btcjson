@@ -150,7 +150,7 @@ type GetPeerInfoResult struct {
 	SubVer         string  `json:"subver"`
 	Inbound        bool    `json:"inbound"`
 	StartingHeight int32   `json:"startingheight"`
-	BanScore       int32   `json:"banscore,omitempty"`
+	BanScore       int32   `json:"banscore"`
 	SyncNode       bool    `json:"syncnode"`
 }
 
